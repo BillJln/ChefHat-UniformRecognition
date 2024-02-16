@@ -1,0 +1,444 @@
+<!Doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>道路谷物检测</title>
+		    <link rel="icon" href="/css/favicon-32.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/css/favicon-32.ico" type="image/x-icon">
+		<link rel="stylesheet" href="/css/style.css">
+<!--		<link rel="stylesheet" href="{{ url_for('static_url_path', filename='css/style.css') }}">-->
+<!--		    <link rel = "stylesheet" href = "{{ static_url_path('css/index.css') }}">-->
+    </head>
+    <body>
+    	<div class="header">
+    			<div class="title">中电鸿信AI原子能力</div>
+    		</div>
+		<div class="banner">
+			<div class="text2">
+				<div class="dbt">道路谷物检测</div>
+				<div class="xbt">基于深度学习与图像识别等技术，检测道路旁边晾晒的谷物，并标注出来。</div>
+<!--				<div class="sy_box"><a href="/md/readme_lpr.html" target="_blank" class="ljsy">技术文档</a><a href="/md/readme_lpr.html" class="jswd">立即使用</a></div>-->
+				<div class="sy_box"><a href="/doc/grainServiceDoc.pdf" target="_blank"  class="card-link ljsy">技术文档</a>
+					<a  href="/doc/grainServiceDoc.docx"  class="jswd" onclick="openmydoc('/doc/grainServiceDoc.docx');" type="activxobject(word.application)">立即使用</a></div>
+			</div>
+			<img src="/images/grain.jpg" alt="">
+		</div>
+		
+		<div class="mainbox" style="padding-top:50px;">
+			<div class="width1150" style="width:500px;height:650px;">
+				<h1>功能介绍</h1>
+				<h2>定位图像中晾晒谷物的位置。</h2>
+				<div class="js_img"><img src="/images/grain1.jpg" alt=""></div>
+			</div>
+		</div>
+		
+		<div class="mainbox">
+			<div class="width1150">
+				<h1>功能演示</h1>
+				<div class="ysbox">
+					<div class="left">
+						<input type="text" id = "net_Image_URL" placeholder="请输入网络图片URL（不支持https地址）">
+<!--						<a href="#">检测</a>-->
+						<button onclick="readNetFile()" id="img_upload_net" value="识别">识别</button>
+					</div>
+					<div class="right">
+						<div class="right2"><span>或</span></span><input type="file" id="img_upload"></div>
+					</div>
+				</div>
+				<h2>提示：可支持png、jpg、jpeg、bmp，图片大小不超过1M，长边不大于2048像素，谷物的尺寸不小100*60像素、图像较为清晰。
+				</h2>
+
+
+				
+				<div class="jgbox3">
+					<div class="left">
+						<h4>提交图片</h4>
+						<p id="img_area" style="height:300px;"></p>
+						<div class="tpyl">
+							<a><img onclick="clickGetFile(this)" src="/demoImages/grain/1.jpg" style="width:182px;height:110px;" alt=""></a>
+							<a><img onclick="clickGetFile(this)" src="/demoImages/grain/2.jpg" style="width:182px;height:110px;" alt=""></a>
+							<a><img onclick="clickGetFile(this)" src="/demoImages/grain/3.jpg" style="width:182px;height:110px;" alt=""></a>
+						</div>
+						<div class="tpyl">
+							<a><img onclick="clickGetFile(this)" src="/demoImages/grain/4.jpg" style="width:182px;height:110px;" alt=""></a>
+							<a><img onclick="clickGetFile(this)" src="/demoImages/grain/5.jpg" style="width:182px;height:110px;" alt=""></a>
+							<a><img onclick="clickGetFile(this)" src="/demoImages/grain/6.jpg" style="width:182px;height:110px;" alt=""></a>
+						</div>
+					</div>
+					<div class="right">
+						<div class="ys_text3" style="font-size:24px;" >
+							<h4>关键信息</h4>
+														<!--                    加载缓存-->
+					<div id="over" class="overLoading"></div>
+					<div id="layout" class="layoutLoading"><img src="/images/1.gif" style="width:100px;height:100px;" alt=""/></div>
+					    <table>
+							<td id="importInfo">......</td>
+						</table>
+						</div>
+
+<!--						<div class="jginfo3" id="resultjson" style="width:100%;margin-top:40px;height:190px;">-->
+<!--							<h4>识别结果</h4>-->
+<!--					    </div>-->
+
+
+					<div class="jgbox3" style="margin-top:30px;background:red;">
+						<h4>识别结果</h4>
+						<div class="jginfo3" id="resultjson" style="height:180px;">
+							json结果
+
+						</div>
+					</div>
+
+				    </div>
+
+				</div>
+
+
+
+<!--				<div class="jgbox">-->
+<!--					<div class="left">-->
+<!--						<h4>提交图片</h4>-->
+<!--						<p id="img_area"></p>-->
+<!--					</div>-->
+<!--					<div class="right">-->
+<!--						<h4>返回JSON</h4>-->
+<!--						<div class="jginfo" id="resultjson" >-->
+<!--							返回json数据-->
+
+<!--				    </div>-->
+<!--					</div>-->
+<!--				</div>-->
+
+			</div>
+		</div>
+
+		<div class="mainbox" style="padding-bottom:50px;">
+			<div class="width1150">
+				<h1>API接口使用</h1>
+				<div class="cjbox">
+					<div class="left">
+						<h3>	输入说明</h3>
+						<p>访问url：http://x.x.x.x:xx/APIService/graindetectionService<br />
+        请求方式：http, post请求;  <br />输入参数：json{"imageBase64":"xx"}，图像大小限制1M。<p>
+					</div>
+					<div class="right">
+						<h3>	输出说明</h3>
+						<p>
+							"statusCode"状态码，"log_id"日志id，"result_num"数目，"result"信息值（坐标值，"confidence"置信度，"value"目标类型）
+						</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="mainbox" style="padding-bottom:50px;">
+			<div class="width1150">
+				<h1>SDK接口使用</h1>
+				<div class="cjbox">
+					<div class="left">
+						<h3>	windows环境</h3>
+						<p>C++语言的动态链接库DLL；<br />java语言接口，基于jni和dll开发。<p>
+					</div>
+					<div class="right">
+						<h3>	Linux环境（待增加）</h3>
+								<p>C++语言的动态链接库；<br />java语言接口，基于jni和.o开发。<p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="mainbox" style="padding-bottom:50px;">
+			<div class="width1150">
+				<h1>应用场景</h1>
+				<div class="cjbox">
+					<div class="left">
+						<h3>	业务系统中图像谷物识别</h3>
+						<p>在道路巡检系统中，可以用于车载摄像机对道路上晾晒的谷物拍照、识别、上传。</p>
+					</div>
+					<div class="right">
+						<h3>	交通摄像头中谷物识别</h3>
+						<p>在交通道路的摄像头中，实时检测道路上晾晒的谷物。</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+		<div class="bottom">
+			<a>中国电信@中电鸿信信息科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;科创AI能力组&nbsp;&nbsp;&nbsp;&nbsp;陈涛&nbsp;&nbsp;&nbsp;&nbsp;19102529590</a>
+		</div>
+
+        <script type="text/javascript">
+
+		var url_ip = window.location.host;
+		var url_str ="/APIService/graindetectionService"
+		var xhr_m;
+        window.onload = function(){
+			// 抓取上传图片，转换代码结果，显示图片的dom
+			var img_upload=document.getElementById("img_upload");
+			var resultjson=document.getElementById("resultjson");
+			var importInfo=document.getElementById("importInfo");
+			var img_area=document.getElementById("img_area");
+			var arr=new Array();
+
+			// 添加功能出发监听事件
+			img_upload.addEventListener('change',uploadFile,false);
+
+        }
+
+function showLoading(show){
+	if(show){
+	   document.getElementById("over").style.display = "block";
+	   document.getElementById("layout").style.display = "block";
+	}else{
+		document.getElementById("over").style.display = "none";
+	   document.getElementById("layout").style.display = "none";
+	}
+}
+function photoCompress(file,w,objDiv){
+	var ready=new FileReader();
+	/*开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个data: URL格式的字符串以表示所读取文件的内容.*/
+	ready.readAsDataURL(file);
+	ready.onload=function(){
+		var re=this.result;
+		canvasDataURL(re,w,objDiv)
+	}
+}
+
+
+function canvasDataURL(path, obj, callback){
+	var img = new Image();
+	img.src = path;
+	img.onload = function(){
+		var that = this;
+		// 默认按比例压缩
+		var w = that.width,
+			h = that.height,
+			scale = w / h;
+		w = obj.width || w;
+		h = obj.height || (w / scale);
+		var quality = 1.0;  // 默认图片质量为0.7
+		//生成canvas
+		var canvas = document.createElement('canvas');
+		var ctx = canvas.getContext('2d');
+		// 创建属性节点
+		var anw = document.createAttribute("width");
+		anw.nodeValue = w;
+		var anh = document.createAttribute("height");
+		anh.nodeValue = h;
+		canvas.setAttributeNode(anw);
+		canvas.setAttributeNode(anh);
+		ctx.drawImage(that, 0, 0, w, h);
+		// 图像质量
+		if(obj.quality && obj.quality <= 1 && obj.quality > 0){
+			quality = obj.quality;
+		}
+		// quality值越小，所绘制出的图像越模糊
+		var base64 = canvas.toDataURL('image/jpeg', quality);
+		// 回调函数返回base64的值
+		callback(base64);
+	}
+}
+
+
+function state_Change() {
+	if(xhr_m.readyState==4 && xhr_m.status == 200){
+	resultjson.innerHTML = xhr_m.responseText;
+	var json_data = JSON.parse(xhr_m.responseText);
+    showLoading(false);
+	var statusCode_str =json_data["statusCode"];
+	if(statusCode_str!="success")
+	{
+		alert(statusCode_str);
+			importInfo.innerHTML = "";
+		return false;
+	}
+
+	var sample_result_str ="";
+	var result_filed_array =json_data["result"]
+	for(j = 0; j < result_filed_array.length; j++) {
+
+		var location_str =result_filed_array[j]["pointX"].toString()+"_"+
+		result_filed_array[j]["pointY"].toString()+"_"+
+		result_filed_array[j]["width"].toString()+"_"+
+		result_filed_array[j]["height"].toString()
+		var color_str =result_filed_array[j]["color"]
+		var text_str =result_filed_array[j]["value"]
+		var confidence_str =result_filed_array[j]["confidence"].toFixed(2);
+		var one_lpr_str =text_str+"，"+"conf:"+confidence_str;
+		sample_result_str =sample_result_str+one_lpr_str;
+		if(j<=result_filed_array.length-1)
+		{
+			sample_result_str =sample_result_str+"<br>";
+		}
+
+	}
+	var showimag ="data:image/jpg;base64,"+json_data["showimageBase64"];
+	img_area.innerHTML ='<img src="'+showimag+'" alt=""/>';
+
+
+	importInfo.innerHTML = sample_result_str;
+
+	<!--		alert(sample_result_str);-->
+	}
+}
+
+function sendFile(base64_data)
+{	showLoading(true);
+		xhr_m = null;
+		if (window.XMLHttpRequest) {// code for all new browsers
+			xhr_m = new XMLHttpRequest();
+		} else if (window.ActiveXObject) {// code for IE5 and IE6
+			xhr_m = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+	xhr_m.open("POST",url_str, true);
+   //xhr_m.open("POST", "http://127.0.0.1:5000/APIService/licensePlateRecognitionService", true);
+	//xhr_m.timeout = 5000; // 超时时间，单位是毫秒
+	 xhr_m.dataType="jsonp"
+	xhr_m.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr_m.onreadystatechange = state_Change;
+
+	var row1 = {};
+	row1.playFlag =1;
+
+	row1.imageBase64 =base64_data;
+	var len =row1.imageBase64.indexOf('base64,')
+
+	if( len!== -1)
+	{
+		row1.imageBase64 =row1.imageBase64.slice(len+7);
+	}
+	var jsonStr = JSON.stringify(row1);
+	xhr_m.send(jsonStr);
+}
+
+
+function uploadFile(){
+	var file=this.files[0];
+	if(!/image\/\w+/.test(file.type)){
+		alert("请确保文件为图像类型");
+		return false;
+	}
+	if(file.size/1024 > 1025) {
+	//大于1M，进行压缩上传
+
+		//判断图像的大小，如果大于1M，就对图像进行压缩。
+		alert("图像大于1M，对图像进行压缩传输");
+	  photoCompress(file, {
+					quality: 1.0,
+<!--		height:1024,-->
+			width:1024
+			}, function(base64Codes){
+			img_area.innerHTML = '<img src="'+base64Codes+'" alt=""/>';
+			sendFile(base64Codes);
+
+
+	  });
+	}
+	else{
+		var reader=new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload=function(){
+			img_area.innerHTML ='<img src="'+this.result+'" alt=""/>';
+			sendFile(this.result);
+		}
+	}
+}
+
+//实现将工程中的图片转化成base64
+function convertImgToBase64(url, callback, outputFormat){
+ 	var obj_width=1024;
+ 	var obj_height;
+ 	var obj_quality =1.0;  // 默认图片质量为0.7
+
+   var canvas = document.createElement('CANVAS'),
+　　ctx = canvas.getContext('2d'),
+　　img = new Image;
+　　img.crossOrigin = 'Anonymous';
+　　img.onload = function(){
+		var dataURL;
+		if( img.width> 1024)
+		{
+				// 默认按比例压缩
+				var w = img.width,
+					h = img.height,
+					scale = w / h;
+
+				w = obj_width || w;
+				h = obj_height || (w / scale);
+
+				canvas.height = h;
+			　　canvas.width = w;
+				// 创建属性节点
+				var anw = document.createAttribute("width");
+				anw.nodeValue = w;
+				var anh = document.createAttribute("height");
+				anh.nodeValue = h;
+				canvas.setAttributeNode(anw);
+				canvas.setAttributeNode(anh);
+				ctx.drawImage(img, 0, 0, w, h);
+				// quality值越小，所绘制出的图像越模糊
+				dataURL = canvas.toDataURL(outputFormat || 'image/jpeg',obj_quality);
+		}
+		else
+		{
+		　　canvas.height = img.height;
+		　　canvas.width = img.width;
+		　　ctx.drawImage(img,0,0);
+		　　dataURL = canvas.toDataURL(outputFormat || 'image/jpeg');
+		}
+
+	　　callback.call(this, dataURL);
+	　　canvas = null;
+	};
+　　img.src = url;
+}
+
+
+function clickGetFile(obj)
+{
+	netImageURL =obj.src;
+	if(netImageURL =="")
+	{
+		alert("网络图片地址为空");
+		return false;
+	}
+	 convertImgToBase64(netImageURL, function(base64Img){
+		//转化后的base64
+		img_area.innerHTML ='<img src="'+base64Img+'" alt=""/>';
+		sendFile(base64Img);
+	 });
+
+}
+
+function readNetFile(){
+	var net_Image_URL_value =document.getElementById("net_Image_URL").value;
+	if(net_Image_URL_value =="")
+	{
+		alert("网络图片地址为空");
+		return false;
+	}
+	alert(net_Image_URL_value);
+	alert("该功能未开通，请等待！");
+
+
+	 convertImgToBase64(net_Image_URL_value, function(base64Img){
+		//转化后的base64
+		img_area.innerHTML ='<img src="'+base64Img+'" alt=""/>';
+		alert(base64Img);
+		sendFile(base64Img);
+	 });
+}
+
+
+
+
+        </script>
+
+
+    </body>
+</html>

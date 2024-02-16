@@ -1,0 +1,77 @@
+html,body{padding:0;margin:0;width:100%;word-spacing: 2;font-family: "微软雅黑","arial, helvetica, sans-serif";}
+*{margin:0;padding:0;}
+a{text-decoration: none;color:#fff;}
+.dw_header{background:#1a1a1a;height:55px;line-height:55px;color:#fff;width:100%;position: fixed;z-index: 99;}
+.dw_header .dw_title{font-size:20px;padding-left:80px;}
+
+.dw_banner{height:450px;width:100%;position: relative;}
+.dw_banner img{width:100%;height:100%;}
+.dw_banner .dw_text{position: absolute;left:80px;top:120px;color:#fff;}
+.dw_banner .dw_text2{position: absolute;z-index:9;left:50%;width:450px;margin-left:-225px;top:120px;text-align: center;}
+.dw_banner .dw_text .dw_dbt,	.dw_banner .dw_text2 .dw_dbt{font-size:40px;color:#fff;}
+.dw_banner .dw_text .dw_xbt,.dw_banner .dw_text2 .dw_xbt{font-size:16px;margin:30px 0;line-height:29px;color:#f1f1f1}
+.dw_banner .dw_text .dw_sy_box a,	.dw_banner .dw_text2 .dw_sy_box a{width:130px;height:40px;line-height:40px;}
+.dw_banner .dw_text .dw_sy_box a.dw_ljsy,.dw_banner .dw_text2 .dw_sy_box a.dw_ljsy{background:#5163e6;color:#fff;display: inline-block;text-align: center;font-size:14px;}
+.dw_banner .dw_text .dw_sy_box a.dw_jswd,.dw_banner .dw_text2 .dw_sy_box a.dw_jswd{background:#5e7c93;color:#fff;margin-left:20px;display: inline-block;text-align: center;font-size:14px;}
+
+.dw_mainbox{width:100%;overflow: hidden;background:#f5f5f5;padding:40px 0;}
+.dw_width1150{width:1150px;margin:0 auto;}
+
+.dw_h1{text-align:center;font-size:28px;font-weight:normal;color:#444;margin-bottom:20px;}
+.dw_h2{color:#999;font-size:14px;text-align: center;font-weight:normal;padding:10px 0 30px 0;}
+.dw_h3{color:#666;font-size:16px;font-weight:normal;padding:30px 0 10px 30px;}
+.dw_h4{position: absolute;left:0;top:0;width:90px;background:#e7fafe;height:30px;line-height:30px;text-align:center;font-size:12px;color:#666;
+font-weight:normal;border-right:1px #cde3fa solid;border-bottom:1px #cde3fa solid;z-index: 3;}
+
+.dw_js_img{height:400px;width:100%;background:#7c8ab6}
+
+.dw_cjbox{width:100%;overflow: hidden;}
+.dw_cjbox .dw_left{width:560px;float:left;background:#fff;height:150px;}
+.dw_cjbox .dw_right{width:560px;float:right;background:#fff;height:150px;margin-left:20px;}
+.dw_cjbox p{color:#999;font-size:14px;padding:0 30px 0 30px;line-height:26px;}
+.dw_ysbox{width:70%;margin:0 auto;overflow: hidden;margin-bottom:10px;}
+.dw_ysbox .dw_left{float:left;width:70%;}
+.dw_ysbox .dw_left input{float:left;border:none;background:#fff;height:35px;line-height:35px;width:65%;padding:0 10px;border:1px #eee solid;}
+.dw_ysbox .dw_left a{float:left;display: inline-block;width:20%;background:#5267e9;height:37px;line-height:37px;color:#fff;text-align: center;font-size:14px;}
+.dw_ysbox .dw_left a:hover{background:#2e29eb}
+.dw_ysbox .dw_right{float:left;width:30%;}
+.dw_ysbox .dw_lb{float:left;width:49%;}
+.dw_ysbox .dw_right .dw_left{float:left;color:#999;padding-right:10px;font-size:12px;}
+.dw_ysbox .dw_right .dw_right2{float:left;}
+.dw_ysbox .dw_lb .dw_right3{text-align: center;}
+.dw_ysbox .dw_right .dw_right2 span{padding-right:10px;font-size:12px;color:#999;}
+.dw_jgbox{}
+.dw_jgbox .dw_left{width:560px;float:left;background:#fafafa;height:300px;border:1px #eee solid; position: relative;}
+.dw_jgbox .dw_left img{width:560px;height:300px}
+.dw_jgbox .dw_right{width:560px;float:right;background:#fafafa;height:300px;border:1px #eee solid;margin-left:20px;overflow-y:auto;position: relative;}
+.dw_jginfo{border-radius:15px;font-size:12px;color:#666;padding:40px 20px 20px 20px;overflow-y:auto;}
+.dw_jgbox2{position: relative;width:100%;overflow: hidden;}
+.dw_jgbox2 .dw_left{width:560px;float:left;background:#fafafa;height:300px;border:1px #eee solid; position: relative;}
+.dw_jgbox2 .dw_left img{width:560px;height:300px}
+.dw_jgbox2 .dw_right img{width:560px;height:300px}  /* .jgbox2 .left img,.jgbox .right img{width:100%;height:100%} */
+.dw_jgbox2 .dw_right{width:560px;float:right;background:#fafafa;height:300px;border:1px #eee solid;margin-left:20px;position: relative;}
+.dw_jginfo2{font-size:12px;color:#666;padding:40px 20px 20px 20px;overflow-y:auto;position: relative;background:#fff;border:1px #eee solid;}
+.dw_bottom{width:100%;background:#1a1a1a;line-height:60px;color:#fff;text-align: center;font-size:12px;}
+
+#msgRecord{
+    height: 200px;
+}
+
+.scroll{
+    overflow-y:scroll;
+}
+
+.scroll::-webkit-scrollbar{
+    width: 10px;
+    background-color: #f8f9fa;
+}
+
+.scroll::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color: #95999c;
+}
+
+.scroll::-webkit-scrollbar-track{
+    border-radius: 10px;
+    background-color: #f8f9fa;
+}

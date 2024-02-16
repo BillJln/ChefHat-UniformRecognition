@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="UTF-8">
+        <title>车辆识别</title>
+        <style type="text/css">
+            .navbar-fixed-top{
+                display: none;
+            }
+        </style>
+</head>
+<body>
+<xmp theme="readable" style="display:none;">
+
+# 车辆识别服务组件
+
+## 接口说明
+
+基于深度学习技术，定位图像车辆位置，识别车辆的车身颜色与车辆类型，识别车辆的车牌内容。功能包括：
+
+* 车辆位置检测
+* 车辆颜色识别
+* 车辆类型识别
+* 车牌识别
+
+
+## 依赖
+* navida-gpu >= p4
+* cuda == 9.2
+* anconda == 3.6
+* tensorflow-gpu >= 1.9
+* opencv_python >= 3.4
+
+
+## 使用说明
+* 接口方式：HTTP接口，post请求
+* url：http://xx.xx.xx.xx:xx/APIService/vehicleStructService
+* 接口输入参数：json {"imageBase64":"xx"}
+
+| 参数        | 类型   |  说明  |
+| --------   | -----:  | :----:  |
+|imageBase64      | string   |   待分析图像的base64编码，图像中车辆较为完整，图像清晰度较高，数据不大于2M    |
+* 接口输出参数：
+
+| 参数        | 类型   |  说明  |
+| --------   | -----:  | :----:  |
+|statusCode| string   |   状态码   |
+|log_id| string   |   状态id    |
+|timeSecond| int   |   分析用时（秒）   |
+|result_num| int   |   车辆数目    |
+|result| array   |   车辆信息列表    |
+|+pointX| int   |   车辆左上角点x值    |
+|+pointY| int   |   车辆左上角点y值    |
+|+width| int   |   车辆的宽度   |
+|+height| int   |  车辆的高度   |
+|+color| string   |   车辆的颜色    |
+|+vehicleColor| string   |   车辆的颜色（黑、白、灰、黄、蓝、绿、红、棕的8类）    |
+|+vehicleType| string   |   车辆的类型（car、SUV、MPV、Pickup皮卡、LightTruck轻卡、truck卡车、miniBus面包车、bus客车\公交车的8类）    |
+|+lprValue| 字典   |   车牌的信息    |
+|++pointX| string   |   车牌左上角点x值    |
+|++pointY| string   |   车牌左上角点y值   |
+|++width| string   |   车牌的宽度    |
+|++height| string   |   车牌的高度    |
+|++color| string   |   车牌的颜色    |
+|++value| string   |   车牌内容    |
+|+confidence| float   |   置信度   |
+
+
+* 状态码说明：
+
+| statusCode值        | 含义型   |
+| --------   | :----:   |
+|success| 	成功|
+|postData_formError| 	Post数据格式错误|
+|imageBase64_formError| 	Base64编码格式错误|
+|imageBase64_empty| 	Base64数据为空|
+|imageBase64_greaterThan2M| 	Base64数据大于2M|
+|overtime| 	图像分析超时|
+|recog_runError| 	图像分析运行失败|
+
+
+ ## 输入
+![Bootswatch](../demoImages/vehicleStruct/1.jpg)
+
+
+## 输出示例
+{"statusCode": "success", "result": [{"pointX": 81, "pointY": 325, "width": 595, "height": 463, "object_type": "car", "object_type_conf": "0.995467", "lprValue": {"pointX": 296, "pointY": 719, "width": 169, "height": 47, "color": "单蓝牌", "value": "京Q22222", "confidence": "0.990000"}, "vehicleType": "carHead", "vehicleType_confidence": "0.745756", "vehicleColor": "黑色", "vehicleColor_confidence": "0.996664", "vehicleBrand": "Volkswagen", "vehicleBrand_confidence": "0.785677"}], "result_num": 1, "log_id": "201912121013_3586f208-1c86-11ea-910c-e86a64f40bcc", "timeSecond": 0.214427}
+
+
+</xmp>
+</body>
+<script src="strapdown.js"></script>
+<!--<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>-->
+</html>

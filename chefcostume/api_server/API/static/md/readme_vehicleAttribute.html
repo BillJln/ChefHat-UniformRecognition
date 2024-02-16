@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="UTF-8">
+        <title>车辆属性识别</title>
+        <style type="text/css">
+            .navbar-fixed-top{
+                display: none;
+            }
+        </style>
+</head>
+<body>
+<xmp theme="readable" style="display:none;">
+        
+# 车辆属性识别原子组件
+
+## 接口说明
+
+基于深度学习技术，针对一个车辆局部图像，识别车辆的车身颜色与车辆类。功能包括：
+
+* 车辆颜色识别
+* 车辆类型识别
+
+
+
+## 依赖
+
+* anconda == 3.6
+* tensorflow-gpu >= 1.9
+* opencv_python >= 3.4
+
+
+## 使用说明
+* 接口方式：HTTP接口，post请求
+* url：http://xx.xx.xx.xx:xx/APIService/vehicleAttributeService
+* 接口输入参数：json数据： {"imageBase64":"xx"}
+
+| 参数        | 类型   |  说明  |
+| --------   | -----:  | :----:  |
+|imageBase64      | string   |   待分析图像的base64编码，针对一个车牌局部图像，图像清晰度较高，数据不大于2M    |
+* 接口输出参数：
+
+| 参数        | 类型   |  说明  |
+| --------   | -----:  | :----:  |
+|statusCode| string   |   状态码   |
+|log_id| string   |   状态id    |
+|timeSecond| int   |   分析用时（秒）   |
+|result_num| int   |   车辆数目    |
+|result| array   |   车辆信息列表    |
+|+vehicleColor| string   |   车辆的颜色（黑、白、灰、黄、蓝、绿、红、棕的8类）    |
+|+colorConfidence| float   |   置信度   |
+|+vehicleType| string   |   车辆的类型（car、SUV、MPV、Pickup皮卡、LightTruck轻卡、truck卡车、miniBus面包车、bus客车\公交车的8类）    |
+|+typeConfidence| float   |   置信度   |
+
+
+* 状态码说明：
+
+| statusCode值        | 含义型   |
+| --------   | :----:   |
+|success| 	成功|
+|postData_formError| 	Post数据格式错误|
+|imageBase64_formError| 	Base64编码格式错误|
+|imageBase64_empty| 	Base64数据为空|
+|imageBase64_greaterThan2M| 	Base64数据大于2M|
+|overtime| 	图像分析超时|
+|recog_runError| 	图像分析运行失败|
+
+
+ ## 输入
+![Bootswatch](../demoImages/vehicleAttribute/1.jpg)
+
+
+## 输出示例
+{"statusCode": "success", "result": {"vehicleType": "carHead", "typeConfidence": 0.9181100130081177, "vehicleColor": "白色", "colorConfidence": 0.9979202151298523, "brand": "Buck\tBuick GL8 Business", "brandConfidence": 0.7813259363174438}, "log_id": "20197291914_3601fde8-b1f5-11e9-ac9b-c3741d03f157"}
+
+</xmp>
+</body>
+<script src="strapdown.js"></script>
+<!--<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>-->
+</html>
